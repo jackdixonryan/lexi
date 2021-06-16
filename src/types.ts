@@ -6,7 +6,7 @@ export interface Entry {
 export interface LexiconOptions {
   lexiconRoute?: string;
   lexicon?: Entry[];
-  options: {
+  options?: {
     allowHomonym?: boolean;
     allowSynonym?: boolean;
     allowHomophone?: boolean;

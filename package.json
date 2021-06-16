@@ -1,6 +1,6 @@
 {
   "name": "lexey",
-  "version": "0.1.11",
+  "version": "0.2.0",
   "description": "Built-in lexicon management and creation - Plug-and-play to build sweet worldbuilding apps!",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",

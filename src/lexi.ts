@@ -4,62 +4,44 @@ import metaphone from "talisman/phonetics/double-metaphone";
 import { Entry, LexiconOptions } from "./types";
 
 class Lexi {
-  lexiconRoute: string;
   lexicon: Entry[];
   allowHomonym: boolean;
   allowSynonym: boolean;
   allowHomophone: boolean;
 
-  constructor(configuration: LexiconOptions) {
+  // configuration is now optional.
+  constructor(configuration: LexiconOptions = null) {
     console.log("setting up...");
-    const {
-      lexiconRoute,
-      lexicon,
-      options
-    } = configuration;
 
-    if (lexiconRoute) {
-      this.lexiconRoute = lexiconRoute;
-    } else {
-      this.lexiconRoute = path.join(__dirname, "./lexicon.json");
-    }
-
-    if (lexicon) {
-      this.lexicon = lexicon;
-    }
-
-    // options sets some of the more nuanced language features.
-    if (options) {
+    if (configuration) {
       const {
-        allowHomonym,
-        allowSynonym,
-        allowHomophone
-      } = options;
+        lexicon,
+        options
+      } = configuration;
 
-      this.allowHomonym = allowHomonym || false; 
-      this.allowSynonym = allowSynonym || false;
-      this.allowHomophone = allowHomophone || false;
-    }
+      // preload a lexicon array.
+      if (lexicon) {
+        this.lexicon = lexicon;
+      } 
 
-    this.loadLexicon();
-  }
+      // options sets some of the more nuanced language features.
+      if (options) {
+        const {
+          allowHomonym,
+          allowSynonym,
+          allowHomophone
+        } = options;
 
-  loadLexicon(): void {
-    if (this.lexicon) {
-      fs.writeFileSync(this.lexiconRoute, JSON.stringify({ lexicon: this.lexicon }));
-    } else {
-      // don't overwrite a file if the lexicon route already has crap in it
-      if (fs.existsSync(this.lexiconRoute)) {
-        const existingLexicon = JSON.parse(fs.readFileSync(this.lexiconRoute, 'utf8')).lexicon;
-        this.lexicon = existingLexicon;
-      } else {
-        fs.writeFileSync(this.lexiconRoute, JSON.stringify({ lexicon: [] }));
-        this.lexicon = [];
+        this.allowHomonym = allowHomonym || false;
+        this.allowSynonym = allowSynonym || false;
+        this.allowHomophone = allowHomophone || false;
       }
     }
+    if (!this.lexicon) this.lexicon = [];
+    console.log(`Lexicon successfully constructed with ${this.lexicon.length} entries.`);
   }
 
-  add(entry: Entry) {
+  add(entry: Entry): Entry {
     let { word, definition } = entry;
     word = word.toLowerCase().trim();
     definition = definition.toLowerCase().trim();
@@ -68,12 +50,12 @@ class Lexi {
       const entry = this.lexicon[i];
       if (entry.word === word) {
         if (!this.allowHomonym) {
-          return `${word} already exists in the lexicon.`;
+          console.error(`${word} already exists in the lexicon.`);
         }
       }
       if (entry.definition === definition) {
         if (!this.allowSynonym) {
-          return `${definition} is already translated as ${word}.`
+          console.error(`${definition} is already translated as ${word}.`);
         }
       }
        
@@ -81,14 +63,34 @@ class Lexi {
       const isHomophone: boolean = this.determineIfHomophone(word, entry.word);
       if (isHomophone) {
         if (!this.allowHomophone) {
-          return `${word} has been flagged as a homophone of ${entry.word}`;
+          console.error(`${word} has been flagged as a homophone of ${entry.word}`);
         } 
       }
     }
     // if the for loop executed without hitting an early return, we can push the word to the lexicon.
     this.lexicon.push(entry);
-    fs.writeFileSync(this.lexiconRoute, JSON.stringify({ lexicon: this.lexicon }));
+    // for chaining. 
+    return entry;
   }
+
+  define(words: string[]): Entry[]{
+    const definitions: Entry[] = words.map((word: string) => {
+      const entry: Entry | undefined = this.lexicon.find((entry: Entry) => entry.word === word);
+      if (entry) {
+        return entry as Entry;
+      } else {
+        return { word, definition: "undefined" };
+      }
+    });
+
+    return definitions;
+  }
+
+  // on the GET function, add some options for filtering / optional retrievals 
+  get(options) {
+    return this.lexicon;
+  }
+
 
   determineIfHomophone(wordOne: string, wordTwo: string): boolean {
     const firstDouble = metaphone(wordOne);
