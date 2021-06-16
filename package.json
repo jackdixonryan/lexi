@@ -1,0 +1,19 @@
+{
+  "name": "lexicography",
+  "version": "1.0.0",
+  "description": "Create fictional languages with a simple JSON-manipulating tool. Build dictionaries, query your entries, construct meanings, etc.\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jack Ryan",
+  "license": "MIT",
+  "dependencies": {
+    "fuse.js": "^6.4.6",
+    "talisman": "^1.1.4"
+  },
+  "devDependencies": {
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
+  }
+}
