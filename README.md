@@ -9,7 +9,7 @@ Helper Function for Building Better Fictional Languages.
 
 ```js
 const lexey = require("lexey");
-const lexicon = lexey({});
+const lexicon = lexey.createLexicon({});
 
 lexey.add({
   word: "mellon",

@@ -1,7 +1,6 @@
 import Lexi from "./lexi";
 import { LexiconOptions } from "./types";
 
-exports.lexi = function (options: LexiconOptions) {
+export function createLexicon(options: LexiconOptions): Lexi {
   return new Lexi(options);
 }
-

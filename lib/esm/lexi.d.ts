@@ -7,7 +7,7 @@ declare class Lexi {
     allowHomophone: boolean;
     constructor(configuration: LexiconOptions);
     loadLexicon(): void;
-    add(entry: Entry): string;
+    add(entry: Entry): string | undefined;
     determineIfHomophone(wordOne: string, wordTwo: string): boolean;
 }
 export default Lexi;

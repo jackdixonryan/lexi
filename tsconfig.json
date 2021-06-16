@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
-    "module": "ES2020",
-    "esModuleInterop": true,
+    "target": "es5",
+    "module": "commonjs",
     "outDir": "./lib/esm",
-    "forceConsistentCasingInFileNames": true,
     "strictPropertyInitialization": false,
+    "esModuleInterop": true,
     "declaration": true,
-    "moduleResolution": "node"
+    "strict": true
   },
   "include": [
     "./src"
