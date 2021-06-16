@@ -1,15 +1,22 @@
 {
-  "name": "lexicography",
-  "version": "1.0.0",
-  "description": "Create fictional languages with a simple JSON-manipulating tool. Build dictionaries, query your entries, construct meanings, etc.\"",
-  "main": "index.js",
+  "name": "lexey",
+  "version": "0.1.1",
+  "description": "Built-in lexicon management and creation - Plug-and-play to build sweet worldbuilding apps!",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "files": [
+    "lib/"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./test-directory",
+    "compile": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
+    "prepublishOnly": "npm run compile"
   },
   "author": "Jack Ryan",
   "license": "MIT",
   "dependencies": {
     "fuse.js": "^6.4.6",
+    "lexicography": "^1.0.0",
     "talisman": "^1.1.4"
   },
   "devDependencies": {

@@ -1,8 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES2015",
+    "module": "ES2020",
     "esModuleInterop": true,
-    "outDir": "./dist",
-    "module": "commonjs"
-  }
+    "outDir": "./lib/esm",
+    "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": false,
+    "declaration": true,
+    "moduleResolution": "node"
+  },
+  "include": [
+    "./src"
+  ]
 }

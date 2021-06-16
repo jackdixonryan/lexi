@@ -1,21 +1,7 @@
 import path from "path";
 import fs from "fs";
 import metaphone from "talisman/phonetics/double-metaphone";
-
-interface Entry {
-  definition: string;
-  word: string;
-}
-
-interface LexiconOptions {
-  lexiconRoute?: string;
-  lexicon?: Entry[];
-  options: {
-    allowHomonym?: boolean;
-    allowSynonym?: boolean;
-    allowHomophone?: boolean;
-  }
-}
+import { Entry, LexiconOptions } from "./types";
 
 class Lexi {
   lexiconRoute: string;
@@ -121,25 +107,5 @@ class Lexi {
     return false;
   }
 }
-
-const lexicon = new Lexi({
-  lexiconRoute: "./awesomeLexicon.json",
-  options: {}
-});
-
-// lexicon.add({
-//   word: "trim",
-//   definition: "tram"
-// });
-
-// console.log(lexicon.add({
-//   word: "flim",
-//   definition: "flam"
-// }));
-
-const newWord = lexicon.add({
-  word: "zole",
-  definition: "gecko"
-});
-
-console.log(newWord);
+ 
+export default Lexi;
